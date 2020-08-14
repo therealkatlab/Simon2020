@@ -14,10 +14,10 @@
 %% Load in file from R that contains CN measurements to analyse
 % Specify variable columns in data set fron R and change to array format
 
-Time = 8 ;
-SpotID = 16 ;
-MtUniqueID = 19 ;
-Value = 2 ;
+Time = 2 ;
+SpotID = 9 ;
+MtUniqueID = 12 ;
+Value = 1 ;
 data = embryosCN ;
 
 tTime = data(:, Time) ;
@@ -56,15 +56,15 @@ for i = 1:length(MtTracks) ;
    % c = c +i ; 
     iMtTrack = MtTracks([i]) ; % Each unique cell
     idata = data(data.MtUniqueID == iMtTrack, :) ; % Subset data on cell
-    values = idata(:, 2) ; % Extract C:N values
-    timeM = idata(:, 25) ; % Extract Time in min
+    values = idata(:, 1) ; % Extract C:N values
+    timeM = idata(:, 16) ; % Extract Time in min
     CN = table2array(values) ;
     if length(CN) > 4
     smoothed = smoothdata(CN, 'gaussian', 3) ;
     [pks, locs, w, p] = findpeaks(smoothed, 'MinPeakProminence', 0.15) ; 
     % Find peaks, location, width (at half prominence), prominence. 
     l = length(pks) ;
-    tID = idata(1:l, 19) ; % Get MtUniqueID that corresponds to these peaks
+    tID = idata(1:l, 12) ; % Get MtUniqueID that corresponds to these peaks
     ID = table2array(tID) ;
     T = table(pks, locs, w, p) ; 
     T.ID = [ID] ; % Bind ID with peak info
